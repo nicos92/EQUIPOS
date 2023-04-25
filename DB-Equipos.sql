@@ -1,0 +1,1 @@
+SELECT * FROM equipos_de_futbol.directores_tecnicos;
