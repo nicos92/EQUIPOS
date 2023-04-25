@@ -1,24 +1,43 @@
--- para obtenes los jugadores
+-- para obtenes los jugadores por equipo
 Select idCamiseta, nombre
 From jugadores
-where equipo_idEquipo = ( select idEquipo
-                            from equipo
-                            where nombre = "Argentinos Junios");
-                            
+where nombre_Equipo = "Arsenal de sarandi";
+
+
+-- obtener puntaje por equipo                            
 -- obtener Puntaje ganador
-select equipo_idEquipo, sum(puntaje) as puntaje
-from (Select equipo_idEquipo, count(*) * 3 as puntaje
-from partidos
-where equipo_idEquipo = ( select idEquipo
-                            from equipo
-                            where nombre = "Argentinos Junios")
-and resultado = "ganador"
-union all
--- obtener puntaje empate
-Select equipo_idEquipo, count(*) as puntaje
-from partidos
-where equipo_idEquipo = ( select idEquipo
-                            from equipo
-                            where nombre = "Argentinos Junios")
-and resultado = "empate") t1
-group by equipo_idEquipo;
+select nombre_equipo as equipo, sum(puntaje) as puntaje
+from (Select nombre_equipo, count(*) * 3 as puntaje
+		from partidos
+		where nombre_equipo =  "Argentinos Junios"
+			and resultado = "ganador"
+		union all
+		-- obtener puntaje empate
+		Select nombre_equipo, count(*) as puntaje
+		from partidos
+		where nombre_equipo =  "Argentinos Junios"
+				and resultado = "empate") t1
+	group by nombre_equipo;
+        
+-- obtener ranking de todos los equipos
+select nombre_equipo as equipos, sum(puntaje) as puntaje
+from (Select nombre_equipo, count(*) * 3 as puntaje
+		from partidos
+		where resultado = "ganador"
+        group by nombre_equipo
+		union all
+		-- obtener puntaje empate
+		Select nombre_equipo, count(*) as puntaje
+		from partidos
+		where resultado = "empate"
+        group by nombre_equipo
+        union all
+        select nombre, 0 as puntaje
+        from equipo) t1
+group by nombre_equipo;
+
+-- obtener DT
+select nombreyapellido
+from directores_tecnicos
+where nombre_equipo = "Argentinos junios";
+        
