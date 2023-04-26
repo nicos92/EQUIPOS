@@ -1,3 +1,7 @@
+-- obtener equipos
+select *
+from equipo;
+
 -- para obtenes los jugadores por equipo
 Select idCamiseta, nombre
 From jugadores
@@ -40,4 +44,13 @@ group by nombre_equipo;
 select nombreyapellido
 from directores_tecnicos
 where nombre_equipo = "Argentinos junios";
+
+-- obtener cantidad de partidos jugados
+select count(*)
+from partidos
+where nombre_equipo = "Argentinos junios";
+
+-- obtener todos los directores
+select *
+from directores_tecnicos;
         
