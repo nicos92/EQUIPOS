@@ -13,20 +13,27 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         getTabladePosiciones();
-        getListaJugadoresxequipo("Argentinos Junios");
+        getListaJugadoresxequipo("banfield");
         getEquipos();
         getDirectores();
         getDirectoresxEquipo("Argentinos Junios");
+
         if(setEquipo("asd")){
             System.out.println("no se pudo ingresar el equipo, revise que no este repetido");
         }else {
             System.out.println("Equipo agregado correctamente");
         }
-         ;
+
         if(deleteEquipo("asd")){
             System.out.println("no se pudo eliminar el equipo");
         }else {
             System.out.println("Equipo eliminado correctamente");
+        }
+
+        if (setJugador("4", "nicolas S", "si", "Boca Juniors")) {
+            System.out.println("No se pudo guardar, revise que no esten repetidos");
+        }else {
+            System.out.println("Jugador guardado Correctamente");
         }
 
 
@@ -90,26 +97,32 @@ public class Main {
         }
     }
     private static void getDirectoresxEquipo(String equipo) {
-        DirectorRepository directorRepository = new DirectorRepository();
-        DirectorEntity director = new DirectorEntity()
-                ;
         try {
+            DirectorRepository directorRepository = new DirectorRepository();
+            DirectorEntity director = new DirectorEntity();
             director = directorRepository.getDirectorxEquipo(equipo);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-
             System.out.println(director);
-
     }
 
     private static boolean setEquipo(String nombreEquipo){
         EquiposRepository equiposRepository = new EquiposRepository();
         return equiposRepository.setEquipo(nombreEquipo);
     }
-    private static boolean deleteEquipo(String nombreEquipo){
+    private static boolean deleteEquipo(String nombreEquipo) {
         EquiposRepository equiposRepository = new EquiposRepository();
         return equiposRepository.existEquipo(nombreEquipo);
+    }
+    private static boolean setJugador(String camiseta, String nombre, String titular, String equipo){
+        try {
+            JugadoresRepository jugadoresRepository = new JugadoresRepository();
+            return  jugadoresRepository.setJugador(camiseta,nombre,titular,equipo);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());;
+        }
+        return true;
+
     }
 }

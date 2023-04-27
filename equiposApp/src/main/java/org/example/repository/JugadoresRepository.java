@@ -46,4 +46,15 @@ public class JugadoresRepository {
 
         return jugadores;
     }
+
+    public boolean setJugador (String camiseta, String nombre, String titular, String equipo) throws Exception{
+
+        PreparedStatement psJugador = connection.prepareStatement("INSERT INTO `dbequipos`.`jugadores` (`idCamiseta`, `nombre`, `titular`, `nombre_equipo`) VALUES (?, ?, ?, ?)");
+        psJugador.setString(1, camiseta);
+        psJugador.setString (2, nombre);
+        psJugador.setString (3, titular);
+        psJugador.setString (4, equipo);
+
+        return psJugador.execute();
+    }
 }
