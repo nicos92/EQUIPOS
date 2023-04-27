@@ -13,10 +13,16 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         getTabladePosiciones();
-        getListaJugadoresxequipo("Argentinos Junios");
+        getListaJugadoresxequipo("banfield");
         getEquipos();
         getDirectores();
         getDirectoresxEquipo("Argentinos Junios");
+        if (setJugador("4", "nicolas S", "si", "Boca Juniors")) {
+
+            System.out.println("No se pudo guardar, revise que no esten repetidos");
+        }else {
+            System.out.println("Jugador guardado Correctamente");
+        }
 
 
     }
@@ -91,5 +97,15 @@ public class Main {
 
             System.out.println(director);
 
+    }
+
+    private static boolean setJugador(String camiseta, String nombre, String titular, String equipo){
+        JugadoresRepository jugadoresRepository = new JugadoresRepository();
+        try {
+            return  jugadoresRepository.setJugador(camiseta,nombre,titular,equipo);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());;
+        }
+        return true;
     }
 }
