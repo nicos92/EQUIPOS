@@ -60,5 +60,52 @@ public class EquiposRepository {
         return equipos;
     }
 
+    public boolean setEquipo( String nombre){
 
+        try {
+            PreparedStatement psEquipo = connection.prepareStatement("INSERT INTO `dbequipos`.`equipo` (`nombre`) " +
+                    "VALUES (?)");
+            psEquipo.setString(1, nombre);
+            return psEquipo.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return true;
+    }
+
+    public boolean existEquipo(String nombreEquipo){
+
+        try {
+            EquipoEntity equipo= new EquipoEntity();
+            PreparedStatement psExistEquipo = connection.prepareStatement("""
+                                                        SELECT  nombre
+                                                        FROM equipo
+                                                        WHERE nombre = ?""");
+            psExistEquipo.setString(1, nombreEquipo);
+            ResultSet rsExistEquipo = psExistEquipo.executeQuery();
+            while (rsExistEquipo.next()){
+                equipo.setNombreEquipo(rsExistEquipo.getString(1));
+            }
+            if (equipo.getNombreEquipo() != null){
+                deleteEquipo(nombreEquipo);
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
+    }
+
+    public void deleteEquipo(String nombreEquipo){
+
+        try {
+            PreparedStatement psEquipo = connection.prepareStatement("DELETE FROM `dbequipos`.`equipo` WHERE " +
+                    "(`nombre` = ?)");
+            psEquipo.setString(1, nombreEquipo);
+            psEquipo.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

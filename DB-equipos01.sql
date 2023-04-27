@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
--- Host: localhost    Database: equipos
+-- Host: localhost    Database: dbequipos
 -- ------------------------------------------------------
--- Server version	8.0.31
+-- Server version	8.0.30
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,10 +25,11 @@ DROP TABLE IF EXISTS `directores_tecnicos`;
 CREATE TABLE `directores_tecnicos` (
   `idDirector` int NOT NULL,
   `nombreYapellido` varchar(45) NOT NULL,
-  `nombre_equipo` varchar(45)  NULL,
+  `nombre_equipo` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idDirector`),
   UNIQUE KEY `idDirector_UNIQUE` (`idDirector`),
-  FOREIGN KEY (nombre_equipo) references equipo(nombre)
+  KEY `nombre_equipo` (`nombre_equipo`),
+  CONSTRAINT `directores_tecnicos_ibfk_1` FOREIGN KEY (`nombre_equipo`) REFERENCES `equipo` (`nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -38,6 +39,7 @@ CREATE TABLE `directores_tecnicos` (
 
 LOCK TABLES `directores_tecnicos` WRITE;
 /*!40000 ALTER TABLE `directores_tecnicos` DISABLE KEYS */;
+INSERT INTO `directores_tecnicos` VALUES (1,'monzon','argentinos junios');
 /*!40000 ALTER TABLE `directores_tecnicos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,10 +77,10 @@ CREATE TABLE `jugadores` (
   `idCamiseta` int NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `titular` char(10) NOT NULL,
-  `nombre_equipo` varchar(45) NULL,
-  PRIMARY KEY (`idCamiseta`),
-  UNIQUE KEY `idCamiseta_UNIQUE` (`idCamiseta`),
-  FOREIGN KEY (nombre_equipo) references equipo(nombre)
+  `nombre_equipo` varchar(45) NOT NULL,
+  PRIMARY KEY (`idCamiseta`,`nombre_equipo`),
+  KEY `jugadores_ibfk_1` (`nombre_equipo`),
+  CONSTRAINT `jugadores_ibfk_1` FOREIGN KEY (`nombre_equipo`) REFERENCES `equipo` (`nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -88,7 +90,7 @@ CREATE TABLE `jugadores` (
 
 LOCK TABLES `jugadores` WRITE;
 /*!40000 ALTER TABLE `jugadores` DISABLE KEYS */;
-INSERT INTO `jugadores` VALUES (2,'Torren','s','Argentinos Junios'),(3,'sanchez','s','Argentinos Junios'),(4,'Mac Allister','s','Argentinos Junios'),(5,'Redondo','s','Argentinos Junios'),(6,'Villalba','s','Argentinos Junios'),(7,'Cabrera','s','Argentinos Junios'),(9,'Avalos','s','Argentinos Junios'),(10,'veron','s','Argentinos Junios'),(11,'Nuss','s','Argentinos Junios'),(12,'Cardozo','s','Argentinos Junios'),(13,'Gonzalez Metilli','s','Argentinos Junios'),(14,'Vera','n','Argentinos Junios'),(15,'Heredia','n','Argentinos Junios'),(16,'Cabral','n','Argentinos Junios'),(17,'Moyano','n','Argentinos Junios'),(18,'Montiel','n','Argentinos Junios'),(19,'Ferreyra','n','Argentinos Junios'),(20,'Lanzillota','n','Argentinos Junios'),(21,'Dominguez','n','Argentinos Junios'),(24,'Gonzalez','n','Argentinos Junios'),(25,'Martin Arias','n','Argentinos Junios'),(27,'Bittolo','n','Argentinos Junios'),(29,'Di Cesare','n','Argentinos Junios'),(30,'Minissale','n','Argentinos Junios');
+INSERT INTO `jugadores` VALUES (1,'nicolas sandoval','si','Banfield'),(2,'Torren','si','Argentinos Junios'),(3,'sanchez','s','Argentinos Junios'),(3,'nicolas S','si','Boca Juniors'),(4,'Mac Allister','s','Argentinos Junios'),(4,'nicolas S','si','Boca Juniors'),(5,'Redondo','s','Argentinos Junios'),(6,'Villalba','s','Argentinos Junios'),(7,'Cabrera','s','Argentinos Junios'),(9,'Avalos','s','Argentinos Junios'),(10,'veron','s','Argentinos Junios'),(11,'Nuss','s','Argentinos Junios'),(12,'Cardozo','s','Argentinos Junios'),(13,'Gonzalez Metilli','s','Argentinos Junios'),(14,'Vera','n','Argentinos Junios'),(15,'Heredia','n','Argentinos Junios'),(16,'Cabral','n','Argentinos Junios'),(17,'Moyano','n','Argentinos Junios'),(18,'Montiel','n','Argentinos Junios'),(19,'Ferreyra','n','Argentinos Junios'),(20,'Lanzillota','n','Argentinos Junios'),(21,'Dominguez','n','Argentinos Junios'),(24,'Gonzalez','n','Argentinos Junios'),(25,'Martin Arias','n','Argentinos Junios'),(27,'Bittolo','n','Argentinos Junios'),(29,'Di Cesare','n','Argentinos Junios'),(30,'Minissale','n','Argentinos Junios');
 /*!40000 ALTER TABLE `jugadores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,7 +108,8 @@ CREATE TABLE `partidos` (
   `goles_hechos` int DEFAULT NULL,
   `goles_recibidos` int DEFAULT NULL,
   PRIMARY KEY (`idPartido`,`nombre_equipo`),
-  FOREIGN KEY (nombre_equipo) references equipo(nombre)
+  KEY `nombre_equipo` (`nombre_equipo`),
+  CONSTRAINT `partidos_ibfk_1` FOREIGN KEY (`nombre_equipo`) REFERENCES `equipo` (`nombre`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -116,6 +119,7 @@ CREATE TABLE `partidos` (
 
 LOCK TABLES `partidos` WRITE;
 /*!40000 ALTER TABLE `partidos` DISABLE KEYS */;
+INSERT INTO `partidos` VALUES (1,'Argentinos Junios','ganador',2,0),(1,'Arsenal de Sarandi','perdedor',0,2);
 /*!40000 ALTER TABLE `partidos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -128,4 +132,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-25  6:06:46
+-- Dump completed on 2023-04-26 21:51:50

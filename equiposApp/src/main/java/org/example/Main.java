@@ -17,6 +17,17 @@ public class Main {
         getEquipos();
         getDirectores();
         getDirectoresxEquipo("Argentinos Junios");
+        if(setEquipo("asd")){
+            System.out.println("no se pudo ingresar el equipo, revise que no este repetido");
+        }else {
+            System.out.println("Equipo agregado correctamente");
+        }
+         ;
+        if(deleteEquipo("asd")){
+            System.out.println("no se pudo eliminar el equipo");
+        }else {
+            System.out.println("Equipo eliminado correctamente");
+        }
 
 
     }
@@ -91,5 +102,14 @@ public class Main {
 
             System.out.println(director);
 
+    }
+
+    private static boolean setEquipo(String nombreEquipo){
+        EquiposRepository equiposRepository = new EquiposRepository();
+        return equiposRepository.setEquipo(nombreEquipo);
+    }
+    private static boolean deleteEquipo(String nombreEquipo){
+        EquiposRepository equiposRepository = new EquiposRepository();
+        return equiposRepository.existEquipo(nombreEquipo);
     }
 }
