@@ -30,8 +30,12 @@ public class Main {
                 case 2 -> switchJugadores();
                 case 3 -> switchDirecTec();
                 case 4 -> switchPartidos();
-                default->
-                    System.out.println("Opcion no valida");
+
+                default -> {
+                    if (opc != 0) {
+                        System.out.println("Opcion no valida");
+                    }
+                }
 
             }
         }while (opc != 0);
@@ -87,7 +91,6 @@ public class Main {
 
     private static void switchJugadores() {
         int opc;
-
         do {
             System.out.println(("""
                                     - Jugadores -
@@ -96,9 +99,7 @@ public class Main {
                                     2) ingresar Jugador
                                     
                                     0) volver"""));
-
             opc = validarOpc();
-
             switch (opc){
                 case 1-> JugadorController.getListaJugadoresxequipo();
                 case 2-> {
@@ -109,8 +110,6 @@ public class Main {
                     }
                 }
             }
-
-
 
         }while (opc != 0);
     }

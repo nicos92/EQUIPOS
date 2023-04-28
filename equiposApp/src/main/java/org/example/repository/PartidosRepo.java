@@ -49,21 +49,18 @@ public class PartidosRepo {
     public int getIdPartido(){
 
         try{
-
             PreparedStatement psMaxId= connection.prepareStatement("select max(idpartido) from partidos");
             ResultSet rsId = psMaxId.executeQuery();
-
             int id = 0;
-
             while (rsId.next()){
                 id = rsId.getInt(1) + 1;
-
             }
-            return id;
+
 
         }catch (SQLException e){
             System.out.println("get ID Partido: " + e.getMessage());
         }
+
         return 0;
     }
 
@@ -81,7 +78,6 @@ public class PartidosRepo {
             psPartido.setInt(7, golesB);
 
             return psPartido.execute();
-
         }catch (SQLException e){
             System.out.println("Insert Partido: " + e.getMessage());
         }

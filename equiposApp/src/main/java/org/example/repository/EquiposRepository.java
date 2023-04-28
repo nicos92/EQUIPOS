@@ -88,15 +88,16 @@ public class EquiposRepository {
         return true;
     }
 
-    public void deleteEquipo(String nombreEquipo){
+    public boolean deleteEquipo(String nombreEquipo){
 
         try {
             PreparedStatement psEquipo = connection.prepareStatement("DELETE FROM `dbequipos`.`equipo` WHERE " +
                     "(`nombre` = ?)");
             psEquipo.setString(1, nombreEquipo);
-            psEquipo.execute();
+            return psEquipo.execute();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return true;
     }
 }
