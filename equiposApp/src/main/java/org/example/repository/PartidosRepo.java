@@ -50,7 +50,7 @@ public class PartidosRepo {
 
         try{
 
-            PreparedStatement psMaxId= connection.prepareStatement("call dbequipos.getMaxIdPartido()");
+            PreparedStatement psMaxId= connection.prepareStatement("select max(idpartido) from partidos");
             ResultSet rsId = psMaxId.executeQuery();
 
             int id = 0;

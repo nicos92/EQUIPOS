@@ -1,16 +1,7 @@
--- obtener idPartido
-select max(idPartido)
-from partidos;
-
-select max(idPartido) from partidos;
-
--- obtener partidos por equipo
-
-select A.idPartido, A.nombre_equipo, A.goles_hechos, B.nombre_equipo, B.goles_hechos
-from partidoxequipo as A, partidoxequipo as B
-where A.nombre_equipo <> B.nombre_equipo and A.idPartido = B.idPartido
-group by A.idPartido;
-
+-- si existe
+SELECT  nombre
+FROM equipo
+WHERE nombre = "Argentinos Junos";
 
 -- obtener equipos
 select *

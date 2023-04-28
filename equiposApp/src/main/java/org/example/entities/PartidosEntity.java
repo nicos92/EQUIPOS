@@ -15,7 +15,7 @@ public class PartidosEntity {
     @Override
     public String toString() {
         return
-                "Parido: " + id +
+                "Partido: " + id +
                 ", \"" + resultadoA + " "+ equipoA  +
                 " con " + golEquipoA +
                 " goles\", contra el \"" + resultadoB  +

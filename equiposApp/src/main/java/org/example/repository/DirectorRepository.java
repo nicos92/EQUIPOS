@@ -1,7 +1,6 @@
 package org.example.repository;
 
 import org.example.entities.DirectorEntity;
-import org.example.entities.EquipoEntity;
 
 import java.sql.*;
 import java.util.ArrayList;

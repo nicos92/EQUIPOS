@@ -38,25 +38,16 @@ public class EquiposRepository {
     public List<EquipoEntity> getTablaPosiciones() throws Exception{
 
         List<EquipoEntity> equipos = new ArrayList<>();
-
         PreparedStatement psEquipos = connection.prepareStatement("call dbequipos.getTablaPosiciones()");
-
         ResultSet rsEquipos = psEquipos.executeQuery();
-
         while (rsEquipos.next()){
-
             EquipoEntity equipo = new EquipoEntity();
-
             equipo.setNombreEquipo(rsEquipos.getString(1));
             equipo.setPuntaje(rsEquipos.getInt(2));
-
             equipos.add(equipo);
-
         }
-
         rsEquipos.close();
         psEquipos.close();
-
         return equipos;
     }
 

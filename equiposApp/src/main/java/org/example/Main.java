@@ -1,148 +1,169 @@
 package org.example;
 
-import org.example.entities.DirectorEntity;
-import org.example.entities.EquipoEntity;
-import org.example.entities.JugadorEntity;
-import org.example.entities.PartidosEntity;
-import org.example.repository.DirectorRepository;
-import org.example.repository.EquiposRepository;
-import org.example.repository.JugadoresRepository;
-import org.example.repository.PartidosRepo;
+import org.example.controller.DirectorController;
+import org.example.controller.EquipoController;
+import org.example.controller.JugadorController;
+import org.example.controller.PartidoController;
 
-import java.util.List;
+import java.util.Scanner;
 
 public class Main {
+
+    static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
-/*        getTabladePosiciones();
-        getListaJugadoresxequipo("banfield");
-        getEquipos();
-        getDirectores();
-        getDirectoresxEquipo("Argentinos Junios");
-        getPartidos();
-
-        if(setEquipo("asdd")){
-            System.out.println("no se pudo ingresar el equipo, revise que no este repetido");
-        }else {
-            System.out.println("Equipo agregado correctamente");
-        }
-
-        if(deleteEquipo("asd")){
-            System.out.println("no se pudo eliminar el equipo");
-        }else {
-            System.out.println("Equipo eliminado correctamente");
-        }
-
-        if (setJugador("4", "nicolas S", "si", "Boca Juniors")) {
-            System.out.println("No se pudo guardar, revise que no esten repetidos");
-        }else {
-            System.out.println("Jugador guardado Correctamente");
-        }*/
-
-        System.out.println("main Insert PArtido: " + insertPartido("ganador","Boca Juniors", 3, "perdedor", "Velez Sarsfield", 2));
 
 
 
-    }
+        System.out.println("EQUIPOS APP");
+        int opc;
+        do {
+            System.out.println(("""
+                                    Ingrese una opcion
+                                    1) Equipos
+                                    2) Jugadores
+                                    3) Directores Tecnicos
+                                    4) Partidos
+                                    0) Salir"""));
+            opc = validarOpc();
+            switch (opc){
+                case 1 -> switchEquipos();
+                case 2 -> switchJugadores();
+                case 3 -> switchDirecTec();
+                case 4 -> switchPartidos();
+                default->
+                    System.out.println("Opcion no valida");
 
-    private static boolean insertPartido(String resultA, String equipoA, int golesA, String resultB, String equipoB, int golesB) {
-        PartidosRepo partidosRepo = new PartidosRepo();
-        return partidosRepo.insertPartido(resultA, equipoA, golesA, resultB, equipoB, golesB);
-    }
-
-    private static void getPartidos() {
-        try{
-            PartidosRepo partidosRepo = new PartidosRepo();
-            List<PartidosEntity> partidos = partidosRepo.getPartidos();
-            for (PartidosEntity partido :
-                    partidos) {
-                System.out.println(partido);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        }while (opc != 0);
+        System.out.println("Adios");
+
     }
 
-    private static boolean setJugador(String camiseta, String nombre, String titular, String equipo){
-        JugadoresRepository jugadoresRepository = new JugadoresRepository();
-        return  jugadoresRepository.insertJugador(camiseta,nombre,titular,equipo);
-    }
+    private static void switchPartidos() {
+        int opc;
+        do {
+            System.out.println(("""
+                                - Directores Tecnicos -
+                                Ingrese una opcion
+                                1) Ver Partidos
+                                2) ingresar partido
+                                                                    
+                                0) volver"""));
+            opc = validarOpc();
 
-    private static void getListaJugadoresxequipo(String equipo) {
-        try {
-            JugadoresRepository jugadoresRepository = new JugadoresRepository();
-            List<JugadorEntity> listaJugadores = jugadoresRepository.getJugadoresxEquipo(equipo);
-            for (JugadorEntity jugador :
-                    listaJugadores) {
-                System.out.println(jugador);
+            switch (opc){
+                case 1 -> PartidoController.getPartidos();
+                case 2 -> {
+                        if (PartidoController.insertPartido()) {
+                            System.out.println("No se pudo ingresar el partido");
+                        } else {
+                            System.out.println("Partido ingresado correctamente");
+                        }
+                    }
+                default -> System.out.println("opcion no valida");
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-
+        }while (opc != 0);
     }
 
-    private static void getTabladePosiciones() {
-        try {
-            EquiposRepository equiposRepository = new EquiposRepository();
-            List<EquipoEntity> tablaPosiciones = equiposRepository.getTablaPosiciones();
-            for (EquipoEntity equipo :
-                    tablaPosiciones) {
-                System.out.println(equipo);
+    private static void switchDirecTec() {
+        int opc;
+        do {
+            System.out.println(("""
+                                - Directores Tecnicos -
+                                Ingrese una opcion
+                                1) Todos los directores tecnicos
+                                2) ver Director Tecnico por equipo
+                                                                    
+                                0) volver"""));
+            opc = validarOpc();
+
+            switch (opc){
+                case 1 -> DirectorController.getDirectores();
+                case 2 -> DirectorController.getDirectoresxEquipo();
+                default -> System.out.println("opcion no valida");
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-
+        }while (opc != 0);
     }
-    private static void getEquipos() {
-        try {
-            EquiposRepository equiposRepository = new EquiposRepository();
-            List<EquipoEntity> equipos = equiposRepository.getEquipos();
-            for (EquipoEntity equipo :
-                    equipos) {
-                System.out.println(equipo.getNombreEquipo());
+
+    private static void switchJugadores() {
+        int opc;
+
+        do {
+            System.out.println(("""
+                                    - Jugadores -
+                                    Ingrese una opcion
+                                    1) ver jugadores por equipo
+                                    2) ingresar Jugador
+                                    
+                                    0) volver"""));
+
+            opc = validarOpc();
+
+            switch (opc){
+                case 1-> JugadorController.getListaJugadoresxequipo();
+                case 2-> {
+                    if (JugadorController.setJugador()) {
+                        System.out.println("No se pudo ingresar el jugador\n");
+                    }else {
+                        System.out.println("Jugador ingresado correctamente\n");
+                    }
+                }
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
 
 
+
+        }while (opc != 0);
     }
 
-    private static boolean setEquipo(String nombreEquipo){
-        EquiposRepository equiposRepository = new EquiposRepository();
-        return equiposRepository.setEquipo(nombreEquipo);
-    }
-    private static boolean deleteEquipo(String nombreEquipo) {
-        EquiposRepository equiposRepository = new EquiposRepository();
-        return equiposRepository.existEquipo(nombreEquipo);
-    }
-    private static void getDirectores() {
-        try {
-            DirectorRepository directorRepository = new DirectorRepository();
-            List<DirectorEntity> directores =  directorRepository.getDirectores();
-            for (DirectorEntity director :
-                    directores) {
-                System.out.println(director);
+    private static void switchEquipos() {
+
+
+        int opc;
+
+        do {
+            System.out.println(("""
+                                    Ingrese una opcion
+                                    1) Ver Tabla de Posiciones
+                                    2) Equipos
+                                    3) Ingresar Equipo
+                                    4) Eliminar Equipo
+                                    0) volver"""));
+            opc = validarOpc();
+
+            switch (opc){
+                case 1-> EquipoController.getTabladePosiciones();
+                case 2-> EquipoController.getEquipos();
+                case 3 -> {
+                    if(EquipoController.setEquipo()){
+                        System.out.println("no se pudo ingresar el equipo, revise que no este repetido");
+                    }else {
+                        System.out.println("Equipo agregado correctamente");
+                    }
+                }
+                case 4 -> {
+                    if(EquipoController.deleteEquipo()){
+                        System.out.println("no se pudo eliminar el equipo, verifique su nombre");
+                    }else {
+                        System.out.println("Equipo eliminado correctamente");
+                    }
+
+                }
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-
-    }
-    private static void getDirectoresxEquipo(String equipo) {
-        try {
-            DirectorRepository directorRepository = new DirectorRepository();
-            DirectorEntity director = directorRepository.getDirectorxEquipo(equipo);
-            System.out.println(director);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+            System.out.println(" ");
+        }while (opc != 0);
     }
 
-
-
+    public static int validarOpc(){
+        boolean opcConf = false;
+        int opc = 0;
+        do {
+            try {
+                opc = Integer.parseInt(scanner.nextLine());
+                opcConf = true;
+            }catch (NumberFormatException e){
+                System.out.println("No es un numero valido: " + e.getMessage());
+            }
+        }while (!opcConf);
+        return opc;
+    }
 }

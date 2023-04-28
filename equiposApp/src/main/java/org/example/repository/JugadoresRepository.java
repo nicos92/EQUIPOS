@@ -48,12 +48,12 @@ public class JugadoresRepository {
         return jugadores;
     }
 
-    public boolean insertJugador(String camiseta, String nombre, String titular, String equipo) {
+    public boolean insertJugador(int camiseta, String nombre, String titular, String equipo) {
 
         try {
 
             PreparedStatement psJugador = connection.prepareStatement("INSERT INTO `dbequipos`.`jugadores` (`idCamiseta`, `nombre`, `titular`, `nombre_equipo`) VALUES (?, ?, ?, ?)");
-            psJugador.setString(1, camiseta);
+            psJugador.setInt(1, camiseta);
             psJugador.setString (2, nombre);
             psJugador.setString (3, titular);
             psJugador.setString (4, equipo);
