@@ -3,22 +3,24 @@ package org.example;
 import org.example.entities.DirectorEntity;
 import org.example.entities.EquipoEntity;
 import org.example.entities.JugadorEntity;
+import org.example.entities.PartidosEntity;
 import org.example.repository.DirectorRepository;
 import org.example.repository.EquiposRepository;
 import org.example.repository.JugadoresRepository;
+import org.example.repository.PartidosRepo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        getTabladePosiciones();
+/*        getTabladePosiciones();
         getListaJugadoresxequipo("banfield");
         getEquipos();
         getDirectores();
         getDirectoresxEquipo("Argentinos Junios");
+        getPartidos();
 
-        if(setEquipo("asd")){
+        if(setEquipo("asdd")){
             System.out.println("no se pudo ingresar el equipo, revise que no este repetido");
         }else {
             System.out.println("Equipo agregado correctamente");
@@ -34,77 +36,79 @@ public class Main {
             System.out.println("No se pudo guardar, revise que no esten repetidos");
         }else {
             System.out.println("Jugador guardado Correctamente");
+        }*/
+
+        System.out.println("main Insert PArtido: " + insertPartido("ganador","Boca Juniors", 3, "perdedor", "Velez Sarsfield", 2));
+
+
+
+    }
+
+    private static boolean insertPartido(String resultA, String equipoA, int golesA, String resultB, String equipoB, int golesB) {
+        PartidosRepo partidosRepo = new PartidosRepo();
+        return partidosRepo.insertPartido(resultA, equipoA, golesA, resultB, equipoB, golesB);
+    }
+
+    private static void getPartidos() {
+        try{
+            PartidosRepo partidosRepo = new PartidosRepo();
+            List<PartidosEntity> partidos = partidosRepo.getPartidos();
+            for (PartidosEntity partido :
+                    partidos) {
+                System.out.println(partido);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+    }
 
-
+    private static boolean setJugador(String camiseta, String nombre, String titular, String equipo){
+        JugadoresRepository jugadoresRepository = new JugadoresRepository();
+        return  jugadoresRepository.insertJugador(camiseta,nombre,titular,equipo);
     }
 
     private static void getListaJugadoresxequipo(String equipo) {
-        JugadoresRepository jugadoresRepository = new JugadoresRepository();
-        List<JugadorEntity> listaJugadores = new ArrayList<>();
         try {
-            listaJugadores = jugadoresRepository.getJugadoresxEquipo(equipo);
+            JugadoresRepository jugadoresRepository = new JugadoresRepository();
+            List<JugadorEntity> listaJugadores = jugadoresRepository.getJugadoresxEquipo(equipo);
+            for (JugadorEntity jugador :
+                    listaJugadores) {
+                System.out.println(jugador);
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        for (JugadorEntity jugador :
-                listaJugadores) {
-            System.out.println(jugador);
-        }
+
     }
 
     private static void getTabladePosiciones() {
-        EquiposRepository equiposRepository = new EquiposRepository();
-        List<EquipoEntity> tablaPosiciones = new ArrayList<>();
         try {
-            tablaPosiciones = equiposRepository.getTablaPosiciones();
+            EquiposRepository equiposRepository = new EquiposRepository();
+            List<EquipoEntity> tablaPosiciones = equiposRepository.getTablaPosiciones();
+            for (EquipoEntity equipo :
+                    tablaPosiciones) {
+                System.out.println(equipo);
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        for (EquipoEntity equipo :
-                tablaPosiciones) {
-            System.out.println(equipo);
-        }
+
     }
     private static void getEquipos() {
-        EquiposRepository equiposRepository = new EquiposRepository();
-        List<EquipoEntity> equipos = new ArrayList<>();
         try {
-            equipos = equiposRepository.getEquipos();
+            EquiposRepository equiposRepository = new EquiposRepository();
+            List<EquipoEntity> equipos = equiposRepository.getEquipos();
+            for (EquipoEntity equipo :
+                    equipos) {
+                System.out.println(equipo.getNombreEquipo());
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        for (EquipoEntity equipo :
-                equipos) {
-            System.out.println(equipo.getNombreEquipo());
-        }
-    }
-    private static void getDirectores() {
-        DirectorRepository directorRepository = new DirectorRepository();
-        List<DirectorEntity> directores = new ArrayList<>();
-        try {
-            directores = directorRepository.getDirectores();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
 
-        for (DirectorEntity director :
-                directores) {
-            System.out.println(director);
-        }
-    }
-    private static void getDirectoresxEquipo(String equipo) {
-        try {
-            DirectorRepository directorRepository = new DirectorRepository();
-            DirectorEntity director = new DirectorEntity();
-            director = directorRepository.getDirectorxEquipo(equipo);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-            System.out.println(director);
     }
 
     private static boolean setEquipo(String nombreEquipo){
@@ -115,14 +119,30 @@ public class Main {
         EquiposRepository equiposRepository = new EquiposRepository();
         return equiposRepository.existEquipo(nombreEquipo);
     }
-    private static boolean setJugador(String camiseta, String nombre, String titular, String equipo){
+    private static void getDirectores() {
         try {
-            JugadoresRepository jugadoresRepository = new JugadoresRepository();
-            return  jugadoresRepository.setJugador(camiseta,nombre,titular,equipo);
+            DirectorRepository directorRepository = new DirectorRepository();
+            List<DirectorEntity> directores =  directorRepository.getDirectores();
+            for (DirectorEntity director :
+                    directores) {
+                System.out.println(director);
+            }
         } catch (Exception e) {
-            System.out.println(e.getMessage());;
+            System.out.println(e.getMessage());
         }
-        return true;
+
 
     }
+    private static void getDirectoresxEquipo(String equipo) {
+        try {
+            DirectorRepository directorRepository = new DirectorRepository();
+            DirectorEntity director = directorRepository.getDirectorxEquipo(equipo);
+            System.out.println(director);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+
 }

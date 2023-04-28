@@ -23,9 +23,10 @@ public class JugadoresRepository {
 
         List<JugadorEntity> jugadores = new ArrayList<>();
 
-        PreparedStatement psJugadores = connection.prepareStatement("Select idCamiseta, nombre\n" +
-                "From jugadores\n" +
-                "where nombre_Equipo =  ? ");
+        PreparedStatement psJugadores = connection.prepareStatement("""
+                                                                        Select idCamiseta, nombre
+                                                                        From jugadores
+                                                                        where nombre_Equipo =  ?""");
         psJugadores.setString(1, nombreEquipo);
 
         ResultSet rsJugadores = psJugadores.executeQuery();
@@ -47,14 +48,20 @@ public class JugadoresRepository {
         return jugadores;
     }
 
-    public boolean setJugador (String camiseta, String nombre, String titular, String equipo) throws Exception{
+    public boolean insertJugador(String camiseta, String nombre, String titular, String equipo) {
 
-        PreparedStatement psJugador = connection.prepareStatement("INSERT INTO `dbequipos`.`jugadores` (`idCamiseta`, `nombre`, `titular`, `nombre_equipo`) VALUES (?, ?, ?, ?)");
-        psJugador.setString(1, camiseta);
-        psJugador.setString (2, nombre);
-        psJugador.setString (3, titular);
-        psJugador.setString (4, equipo);
+        try {
 
-        return psJugador.execute();
+            PreparedStatement psJugador = connection.prepareStatement("INSERT INTO `dbequipos`.`jugadores` (`idCamiseta`, `nombre`, `titular`, `nombre_equipo`) VALUES (?, ?, ?, ?)");
+            psJugador.setString(1, camiseta);
+            psJugador.setString (2, nombre);
+            psJugador.setString (3, titular);
+            psJugador.setString (4, equipo);
+
+            return psJugador.execute();
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return true;
     }
 }
